@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <style>
+            .scrollmenu{
+                overflow: auto;
+                white-space: nowrap;
+            }
+
+            .scrollmenu > div{
+                display: inline-block;
+                
+            }
+            div > img{
+                height: 300px;
+            }
+            hr{
+                border: 5px solid yellow;
+            }
+           
+           hr.newline{
+            border: 5px solid red;
+           }
+
+        </style>
+        
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+    </head>
+
+    <body>
+
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Go to home page</a></li>
+                <li><a href='{% url "adminindex" %}'>Edit Home Page</a></li>
+                <li><a href='{% url "adminaboutus" %}'>Edit About Us</a></li>
+                <li><a href='{% url "adminadmission" %}'>Edit Admission</a></li>
+                <li><a href='{% url "adminleadership" %}'>Edit Extracurricular</a></li>
+                <li><a href='{% url "adminwelcome" %}'>Edit Academics</a></li>
+                
+                <li><a href='{% url "footerUpdate" %}'>Update footer</a></li>
+                <li><a href='{% url "principalRemark" %}'>Remark for Each class</a></li>
+                <li><a href='{% url "regpupil" %}'>Register new Pupil</a></li>
+                <li><a href='{% url "teacherprofile" %}'>Update Class Details</a></li>
+                <li><a href='{% url "pupildetails" %}'>Get pupil Details</a></li>
+                <li><a href='{% url "editStudentProfile" %}'>Edit Student Details</a></li>
+
+
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+
+        <div>
+            {% if msg %}
+            <h3>{{ msg }}</h3>
+            {% endif %}
+        </div>
+        
+        <hr>
+        <h2> This form controls what image should be displayed on the homepage</h2>
+        <form action='{% url "adminindex" %}' method='post' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button>Submit</button>
+        </form>
+
+        <hr>
+        <h3>Preview</h3>
+        <div class='scrollmenu'>
+            {% if photos %}
+
+                {% for photo in photos  %}
+                    <div>
+                        <img src='{{ photo.photo.url }}' alt='{{ photo.desc }}'>
+                        <h5>{{ photo.position }}</h5>
+                        
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+        </div>
+
+        <h3>Welcome: This form controls what the Academics image on the homepage will be<hr></h3>
+        <hr class='newline'>
+
+        <form action='{% url "adminindex" %}' method='post' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{formWelcImgs.as_p}}
+            <button>Submit</button>
+        </form>
+        
+        <div class='section'>
+            <h3>Preview<hr></h3>
+            
+            {% if WelcImg %}
+                <div>
+                    <a href='{% url "welcome" %}'><img src='{{ WelcImg.welcImg.url }}' alt='Welcome'></a>
+                </div>
+            {% endif %}
+    
+        <h3>Leadership: This form controls what images Extracurricular image will be on the homepage<hr></h3>
+        <hr class='newline'>
+        <form action='{% url "adminindex" %}' method='post' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{formWelcLeaders.as_p}}
+            <button>Submit</button>
+        </form>
+        <div class='section'>
+            <h3>Preview<hr></h3>
+            
+            {% if WelcLeader %}
+                <div>
+                    <a href='{% url "welcome" %}'><img src='{{ WelcLeader.welcLeader.url }}' alt='Welcome'></a>
+                </div>
+            {% endif %}
+
+
+            <hr>
+            <h2> This form controls what Newsimage should be displayed on the homepage</h2>
+            <form action='{% url "adminindex" %}' method='post' enctype="multipart/form-data">
+                {% csrf_token %}
+                {{formNews.as_p}}
+                <button>Submit</button>
+            </form>
+    
+            <hr>
+            <h3>Preview</h3>
+            <div class='scrollmenu'>
+                {% if news %}
+    
+                    {% for new in news  %}
+                        <div>
+                            <a href='{% url "adminrunonews" new.position %}'>
+                                <img src='{{ new.newsImg.url }}' alt='{{ new.position }}'>
+                                <h5>{{ new.desc }}</h5>
+                            </a>
+                            
+                        </div>
+                    {% endfor %}
+    
+                {% endif %}
+            </div>
+
+
+    </body>
+
+</html>

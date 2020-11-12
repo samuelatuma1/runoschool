@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Footer Update</title>
+        <style>
+            a{
+                text-decoration: none;
+                color:  rgb(3, 3, 103);
+                
+            }
+            body{
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                color: rgb(67, 31, 31);
+            }
+            .div{
+                border: 2px solid rgb(205, 201, 201);
+                border-radius: 15px;
+                box-shadow: 2px 2px 2px 2px rgb(225, 222, 222);
+                padding: 10px;
+            }
+            button{
+                
+                background-color: rgb(0, 0, 108);
+                color: rgb(255, 255, 255);
+                font-variant: small-caps;
+                border-radius: 4px;
+                
+               
+                
+            }
+            input, select{
+                border-radius: 4px;
+                box-shadow: 3px 3px rgb(216, 216, 216);
+            }
+        </style>
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+
+
+    </head>
+    
+    <body>
+
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Go to home page</a></li>
+                <li><a href='{% url "adminindex" %}'>Edit Home Page</a></li>
+                <li><a href='{% url "adminaboutus" %}'>Edit About Us</a></li>
+                <li><a href='{% url "adminadmission" %}'>Edit Admission</a></li>
+                <li><a href='{% url "adminleadership" %}'>Edit Extracurricular</a></li>
+                <li><a href='{% url "adminwelcome" %}'>Edit Academics</a></li>
+                
+                <li><a href='{% url "footerUpdate" %}'>Update footer</a></li>
+                <li><a href='{% url "principalRemark" %}'>Remark for Each class</a></li>
+                <li><a href='{% url "regpupil" %}'>Register new Pupil</a></li>
+                <li><a href='{% url "teacherprofile" %}'>Update Class Details</a></li>
+                <li><a href='{% url "pupildetails" %}'>Get pupil Details</a></li>
+                <li><a href='{% url "editStudentProfile" %}'>Edit Student Details</a></li>
+
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+        <br>
+
+        
+        <h3 style='text-align: center;'><strong>Update footer</strong></h3>
+            <br>
+        <div class='div'>
+            {% if msg %}
+            <div>
+                <p><strong>{{ msg }}</strong></p>
+            </div>
+            {% endif %}
+            <br>
+            
+        <div class='div'>
+            <p style='text-align: center;'><strong>Update footer school details</strong></p>
+            <br>
+            <form action='{% url "footerUpdate" %}' method='POST'>
+                {% csrf_token %}
+                <select name='whatTo' style='display: none;'>
+                    <option value='schooldetails'>School Details</option>
+                </select>
+                <p><strong>School Name*:</strong> <input name='school_name'></p>
+                <br>
+                <p><strong>School Address*:</strong> <input  name='school_address'></p> 
+
+                <br>
+                <p><strong>School Motto*:</strong> <input  name='school_motto'></p>
+                <button>Update Info</button>
+            </form>
+            
+        </div>
+        <br>
+
+        <div class='div'>
+            <p style='text-align: center;'><strong>Update footer school about</strong></p>
+            <br>
+            <form action='{% url "footerUpdate" %}' method='POST'>
+                {% csrf_token %}
+                <select name='whatTo' style='display: none;'>
+                    <option value='schoolabout'>School Details</option>
+                </select>
+                <p><strong>About School*:</strong> <textarea name='school_about'></textarea></p>
+                <br>
+                
+                <button>Update Info</button>
+            </form>
+        </div>
+        
+        <div class='div'>
+            <p style='text-align: center;'><strong>Update footer school Contact</strong></p>
+            <br>
+            <form action='{% url "footerUpdate" %}' method='POST'>
+                {% csrf_token %}
+                <select name='whatTo' style='display: none;'>
+                    <option value='schoolcontact'>School Details</option>
+                </select>
+                <p><strong>School Phone*:</strong><input name='phone'></p>
+                <br>
+                <p><strong>School Email*:</strong> <input  name='email'></p> 
+
+                <br>
+
+                <br>
+                
+                <button>Update Info</button>
+            </form>
+
+        <div class='div'>
+            <p style='text-align: center;'><strong>Update footer school Logo</strong></p>
+            <br>
+            <form action='{% url "footerUpdate" %}' method='POST' enctype="multipart/form-data">
+                {% csrf_token %}
+                <select name='whatTo' style='display: none;'>
+                    <option value='schoollogo'>School Details</option>
+                </select>
+                
+                    {{ LogoForm }}
+                <br>
+                
+                <button>Update Info</button>
+            </form>
+        </div>
+        <hr>
+        <h2>Preview Footer</h2>
+        <hr>
+        <br>
+
+        <br>
+
+    <footer>
+        <img class='footimg' src='{{ logo.logo.url }}'>
+            <div id='footer1'>
+                <h1>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_name }}
+                    {% else %}
+                        School Name
+                    {% endif %}
+                </h1>
+                <h2>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_motto }}
+                    {% else %}
+                        School Address
+                    {% endif %}
+                </h2>
+                <br>
+
+                <h3>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_address }}
+                    {% else %}
+                        School Motto
+                    {% endif %}
+                </h3>
+                <br>
+                <h3>
+                    {% if contactFooter %}
+                        {{ contactFooter.school_phone }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </h3>
+                <h3>
+                    {% if contactFooter %}
+                        <a href='mailto:{{ contactFooter.school_mail }}'>{{ contactFooter.school_mail }}</a>
+                    {% else %}
+                        School mail
+                    {% endif %}
+
+                </h3>
+
+                <br>
+            
+            </div>
+            <div id='footer2'>
+                <h1>About<hr></h1>
+                <p>
+                    {% if aboutFooter %}
+                        {{ aboutFooter.school_about | linebreaks }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </p>
+            </div>
+    </footer>
+
+
+        </div>
+    </body>
+</html>

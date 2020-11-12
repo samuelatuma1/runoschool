@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Page</title>
+        <style>
+             
+            input{
+                border: 2px solid rgb(111, 111, 111);
+                border-radius: 5px;
+            }
+            input:hover{
+                background-color: rgb(230, 230, 247);
+            }
+            body{
+                
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            }
+            #db, #wrapper{
+                border: 2px solid rgb(198, 197, 197);
+                border-radius: 5px;
+                padding: 10px;
+            }
+            #topScreen{
+                text-align: center;
+                padding-top: 10px;
+                padding-bottom: 3px;
+                
+                border-radius: 5px;
+                width: 100%;
+                
+                background-color: rgb(145, 145, 211);
+                color: rgb(234, 234, 244);
+            }
+           
+            body{
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                color: rgb(1, 1, 16);
+            }
+            a{
+                text-decoration: none;
+                
+            }
+            button{
+                /*background-color: #7b7082; */
+                /*background-color: rgb(164, 81, 95); */
+                background-color: rgb(0, 0, 108);
+                color: rgb(226, 226, 226);
+                font-variant: small-caps;
+                border-radius: 4px;
+                padding: 5px;
+                /*border-bottom-left-radius: 0px;*/
+                /*box-shadow: 1px 1px rgb(34, 57, 34); */
+                /*box-shadow: 1px 1px rgb(154, 77, 90);*/
+                border: 1px solid  white;
+                
+            }
+            
+            h2{
+                margin: auto;
+                text-align: center;
+                color: rgb(239, 239, 255);
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                /*text-decoration: underline;*/
+                font-variant: small-caps;
+                
+                border: 2px solid rgb(247, 241, 241);
+                
+            }
+            
+
+        </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        
+        //If there is a message, e.g a password change
+        if('{{ msg }}'){
+            alert('{{ msg }}')
+            }
+
+        //Try to ensure that for each form submitted, there is no input value that is empty
+        document.querySelectorAll('form').forEach(function(form){
+
+            //When any part of the form is clicked
+            form.onclick = function(){
+                //Get the botton element
+                button = this.getElementsByTagName('button')
+                
+                //Get all the inputs
+                inputs = this.getElementsByTagName('input')
+
+                // Set Total nmber of empty inputs in the form to 0
+                anyEmpty=0
+
+                for(i=0; i < inputs.length; i++ ){
+                    if(inputs[i].tagName == 'INPUT'){
+                        // for each input
+
+                        //If something on input
+                        if(inputs[i].value.length > 0){
+                            // dont add to anyEmpty
+                            anyEmpty += 0
+                        }
+                        // Else, add to anyEmpty
+                        else if(inputs[i].value.length == 0){
+                            anyEmpty += 1
+                        }
+                    }
+                }
+                //If there is any empty input 
+                if(anyEmpty > 0){
+                    //disable the submit button and do not submit
+                    button.disabled = true
+                    return false;
+                }
+                // Else, if there is no empty input, enable the submit button and permit submission
+                else{
+                    button.disabled = false
+                    return true
+                }
+                
+            }})
+
+        
+        })
+        
+    </script>
+    
+    </head>
+    
+    <body>
+
+        {% load static %}
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+        
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Go to home page</a></li>
+                <li><a href='{% url "adminindex" %}'>Edit Home Page</a></li>
+                <li><a href='{% url "adminaboutus" %}'>Edit About Us</a></li>
+                <li><a href='{% url "adminadmission" %}'>Edit Admission</a></li>
+                <li><a href='{% url "adminleadership" %}'>Edit Extracurricular</a></li>
+                <li><a href='{% url "adminwelcome" %}'>Edit Academics</a></li>
+                
+                <li><a href='{% url "footerUpdate" %}'>Update footer</a></li>
+                <li><a href='{% url "principalRemark" %}'>Remark for Each class</a></li>
+                <li><a href='{% url "regpupil" %}'>Register new Pupil</a></li>
+                <li><a href='{% url "teacherprofile" %}'>Update Class Details</a></li>
+                <li><a href='{% url "pupildetails" %}'>Get pupil Details</a></li>
+                <li><a href='{% url "editStudentProfile" %}'>Edit Student Details</a></li>
+
+
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+        <br>   
+
+        <br>
+        <div id='topScreen'>
+            <h2>Pupil Details</h2><br>
+            <h3>Name: {{ name }} </h3><br>
+            <h3>student_id: {{ id }}</h3><br>
+            <h3>current class: {{ class }}</h3><br>
+            <h3>Date of Birth: {{ DOB }}</h3><br>
+            <h3>Parent Email: {{ email }}</h3><br>
+            <h3>About: {{ about }}</h3><br>
+        </div>
+        <br>
+        {% if msg %}
+            <div id='wrapper' style='text-align: center;'>{{ msg }}</div>
+        {% endif %}
+
+        <form action='{% url "editstudProfile" %}' method='post'>
+            {% csrf_token %}
+            <select name='edit' style='display: none;'>
+                <option  value='pupil_name'></option>
+            </select>
+                <select name='id' style='display: none;'>
+                    <option style='display: none;' value='{{ id }}'>{{ id }}</option>
+                </select>
+            <p><strong>Edit student Name: <input name='name'> <button>Edit Name</button></strong></p>
+        </form>
+        <br>
+
+        <form action='{% url "editstudProfile" %}' method='post'>
+            {% csrf_token %}
+            <select name='edit' style='display: none;'>
+                <option  value='pupil_email'></option>
+            </select>
+                <select name='id' style='display: none;'>
+                    <option style='display: none;' value='{{ id }}'>{{ id }}</option>
+                </select>
+            <p><strong>Edit Student Email Address: <input type='email' name='email'> <button>Edit Email Address</button></strong></p>
+        </form>
+        <br>
+
+        <form action='{% url "editstudProfile" %}' method='post'>
+            {% csrf_token %}
+            <select name='edit' style='display: none;'>
+                <option  value='pupil_about'></option>
+            </select>
+                <select name='id' style='display: none;'>
+                    <option style='display: none;' value='{{ id }}'>{{ id }}</option>
+                </select>
+            <p><strong>Edit About Student: <input type='text' name='about'> <button>Edit About Student</button></strong></p>
+        </form>
+
+
+        <br>
+        <div id='db'>
+            <h4 style='text-align: center;'>Change Date of Birth</h4><br>
+        <form action='{% url "editstudProfile" %}' method='post'>
+            {% csrf_token %}
+            <select name='edit' style='display: none;'>
+                <option  value='pupil_DOB'></option>
+            </select>
+                <select name='id' style='display: none;'>
+                    <option style='display: none;' value='{{ id }}'>{{ id }}</option>
+                </select>
+            <p><strong>Edit Day of Birth: <input type='number' min='1' max='31' name='day'> </strong></p>
+            <p><strong>Edit Month of Birth: <input type='number' min='1' max='12' name='month'> </strong></p>
+            <p><strong>Edit Year of Birth: <input type='number' min='1990' max='2050' name='year'> </strong></p>
+            <p style='text-align: center;'><button>Change Date of Birth</button></p>
+
+        </form>
+        </div>
+
+       
+    </body>
+</html>

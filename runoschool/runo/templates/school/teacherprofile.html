@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Login </title>
+        <style>
+            body{
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                color: rgb(67, 31, 31);
+                
+            }
+            .div div{
+                text-align: center;
+                border: 2px solid rgb(205, 201, 201);
+                border-radius: 15px;
+                box-shadow: 2px 2px 2px 2px rgb(225, 222, 222);
+                padding: 10px;
+            }
+            button{
+                background-color: rgb(0, 0, 108);
+                color: rgb(226, 226, 226);
+                font-variant: small-caps;
+                border-radius: 4px;
+                padding: 3px;
+               
+                
+            }
+            input{
+                border-radius: 10px;
+                box-shadow: 3px 3px rgb(216, 216, 216);
+            }
+            td, th{
+                border: 2px solid rgb(188, 188, 220);
+                padding: 5px;
+                
+                
+               
+            }
+            th{
+                background-color: rgb(0, 0, 108);
+                color: rgb(226, 226, 239);
+                padding: 10px;
+                
+            }
+            table{
+                margin: auto;
+                
+                border-collapse: collapse;
+                
+            }
+            tr:hover{
+                background-color: rgb(220, 220, 240);
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        {% load static %}
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+        
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Go to home page</a></li>
+                <li><a href='{% url "adminindex" %}'>Edit Home Page</a></li>
+                <li><a href='{% url "adminaboutus" %}'>Edit About Us</a></li>
+                <li><a href='{% url "adminadmission" %}'>Edit Admission</a></li>
+                <li><a href='{% url "adminleadership" %}'>Edit Extracurricular</a></li>
+                <li><a href='{% url "adminwelcome" %}'>Edit Academics</a></li>
+                
+                <li><a href='{% url "footerUpdate" %}'>Update footer</a></li>
+                <li><a href='{% url "principalRemark" %}'>Remark for Each class</a></li>
+                <li><a href='{% url "regpupil" %}'>Register new Pupil</a></li>
+                <li><a href='{% url "teacherprofile" %}'>Update Class Details</a></li>
+                <li><a href='{% url "pupildetails" %}'>Get pupil Details</a></li>
+                <li><a href='{% url "editStudentProfile" %}'>Edit Student Details</a></li>
+
+
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+        <br> 
+        <div class='div'>
+        <div>
+        {% if msg %}
+        <div>
+            <p>{{ msg }}</p>
+        </div>
+        <br>
+        {% endif %}
+        {% if form %}
+        <p><strong>Fill this form to change a class' detail, including password</strong></p>
+        <form action='{% url "teacherprofile" %}' method='POST'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>Submit</button>
+        </form>
+        {% endif %}
+        </div>
+        <br>
+        <br>
+        <div>
+            {% if classes %}
+            <p><strong>Class Details </strong></p>
+                <table>
+                    <tr>
+                        <th>Class</th>
+                        <th>Password</th>
+                        <th>Teacher's mail</th>
+                        <th>Phone</th>
+                        <th>Teacher's name</th>
+                    </tr>
+                    {% for class in classes %}
+                        <tr>
+                            <td>{{ class.classRoom }}</td>
+                            <td>{{ class.password }}</td>
+                            <td>{{ class.classMail }}</td>
+                            <td>{{ class.phone }}</td>
+                            <td>{{ class.teacher }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+
+        </div>
+    </div>
+
+    </body>
+</html>

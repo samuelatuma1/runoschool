@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>admission</title>
+        <style>
+            #div{
+                border: 2px solid rgb(210, 204, 204);
+                border-radius: 10px;
+                padding: 10px;
+                margin: auto;
+                width: 95%;
+            }
+            hr{
+                border: 4px solid yellow;
+                background-color: yellow;
+            }
+            button{
+                background-color: rgb(5, 5, 114);
+                color: rgb(222, 222, 240);
+                padding: 3px;
+                border-radius: 3px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        {% load static %}
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+        
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Go to home page</a></li>
+                <li><a href='{% url "adminindex" %}'>Edit Home Page</a></li>
+                <li><a href='{% url "adminaboutus" %}'>Edit About Us</a></li>
+                <li><a href='{% url "adminadmission" %}'>Edit Admission</a></li>
+                <li><a href='{% url "adminleadership" %}'>Edit Extracurricular</a></li>
+                <li><a href='{% url "adminwelcome" %}'>Edit Academics</a></li>
+                
+                <li><a href='{% url "footerUpdate" %}'>Update footer</a></li>
+                <li><a href='{% url "principalRemark" %}'>Remark for Each class</a></li>
+                <li><a href='{% url "regpupil" %}'>Register new Pupil</a></li>
+                <li><a href='{% url "teacherprofile" %}'>Update Class Details</a></li>
+                <li><a href='{% url "pupildetails" %}'>Get pupil Details</a></li>
+                <li><a href='{% url "editStudentProfile" %}'>Edit Student Details</a></li>
+
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+        <br>
+
+
+
+        <h2> This page controls the content on the admission page. Basically, the steps
+            to be followed to be admitted.
+        </h2>
+        <br>
+
+        {% if form %}
+        <div id='div'>
+            <h3>Use this form to fill out the steps required for admission and the position they occupy</h3>
+            <br>
+        <form method='post' action='{% url "adminadmission" %}'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>Add step</button>
+        </form>
+        {% endif %}
+        </div>
+        <hr>
+        <h3>Preview</h3>
+        <br>
+        {% if steps %}
+        <ul>
+            {% for step in steps %}
+                <li style='text-align: center;'>{{ step.step}}</li>
+
+            {% endfor %}
+        </ul>
+        <br>
+        <hr>
+        <br>
+        <h3>Update important documents on admission Page</h3>
+        <br>
+        <div id='div'>
+            {% if admitform %}
+            <h3>
+                This form allows admin update important document on the admisson page.
+            </h3><br>
+            <form method='post' action='{% url "adminadmission" %}' enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ admitform.as_p }}
+                <button>Update Documents</button>
+            </form>
+    
+    
+            {% endif %}
+    
+        </div>
+
+        {% endif %}
+        <hr>
+        <h3>Preview documents on admission page</h3>
+        <br>
+        {% if posit %}
+            <h3><a href='{{ posit.file1.url }}' target='_blank'>{{ posit.name1 }}</a></h3>
+            <h3><a href='{{ posit.file2.url }}' target='_blank'>{{ posit.name2 }}</a></h3>
+            <h3><a href='{{ posit.file3.url }}' target='_blank'>{{ posit.name3 }}</a></h3>
+        {% endif %}
+
+       
+
+    </body>
+</html>

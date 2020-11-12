@@ -1,0 +1,464 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Student Page</title>
+        <style>
+             *{
+                border: 0px;
+                margin: 0px;
+                padding: 0px;
+            }
+            input{
+                border: 2px solid rgb(111, 111, 111);
+                border-radius: 5px;
+            }
+            input:hover{
+                background-color: rgb(230, 230, 247);
+            }
+            body{
+                
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            }
+            #topScreen{
+                text-align: center;
+                padding-top: 40px;
+                padding-bottom: 0px;
+                text-transform: capitalize;
+                border-radius: 5px;
+                width: 100%;
+                height: 70px;
+                background-color: navy;
+                color: rgb(234, 234, 244);
+            }
+            @keyframes grow{
+                0%{
+                    line-height: 0%;
+                    opacity: 0;
+                }
+                
+                
+                100%{
+                    opacity: 1;
+                    line-height: 100%;
+                }
+            }
+
+            @keyframes shrink{
+                0%{
+                    line-height: 100%;
+                    opacity: 1;
+                }
+                50%{
+                    opacity: 0.5;
+                    line-height: 30%;
+                }
+                
+                100%{
+                    opacity: 0;
+                    line-height: 0%;
+                }
+            }
+
+            body{
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                color: rgb(1, 1, 16);
+            }
+            a{
+                text-decoration: none;
+               
+            }
+            button{
+                /*background-color: #7b7082; */
+                /*background-color: rgb(164, 81, 95); */
+                background-color: rgb(0, 0, 108);
+                color: rgb(226, 226, 226);
+                font-variant: small-caps;
+                border-radius: 4px;
+                padding: 5px;
+                /*border-bottom-left-radius: 0px;*/
+                /*box-shadow: 1px 1px rgb(34, 57, 34); */
+                /*box-shadow: 1px 1px rgb(154, 77, 90);*/
+                border: 1px solid  white;
+                
+            }
+            
+            h2{
+                margin: auto;
+                text-align: center;
+                color: rgb(5, 81, 5);
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                /*text-decoration: underline;*/
+                font-variant: small-caps;
+                
+                border: 2px solid rgb(247, 241, 241);
+                
+            }
+            #wrapper , .hidden, .editResult, #msg{
+                border: 2px solid rgb(205, 201, 201);
+                border-radius: 15px;
+                box-shadow: 2px 2px 2px 2px rgb(225, 222, 222);
+                padding: 10px;
+            }
+            .hidden, .editResult{
+                display: none;
+            }
+            #msg{
+                text-align: center;
+            }
+
+            
+            
+            @media(min-width: 1000px){
+            #wrapper{
+            width: 99%; 
+            }
+            .hidden{         
+                width: 70%;
+      }
+        }
+        .center{
+            text-align: center;
+        }
+        #resultHeading{
+            border-radius: 5px;
+            text-align: center;
+            background-color: rgb(147, 0, 0);
+            color: rgb(245, 212, 212);
+            padding: 5px;
+            width: 100px;
+            margin: auto;
+
+        }
+
+        </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        
+        //If there is a message, e.g a password change
+        if('{{ msg }}'){
+            alert('{{ msg }}')
+            }
+        
+
+        // On click of each detail button, display details about the pupil
+        document.querySelectorAll('.details').forEach(function(button){
+            button.onclick = function(){
+                classValue = this.getAttribute('data-id')
+                document.querySelectorAll('.hidden').forEach(function(student){
+                    //If student datapage is not on display, display it, else, hide it
+                    //Also, add keyframes animations to make the display more user friendly
+                    id = student.getAttribute('id');
+                    if(id == classValue){
+                        
+                        if(student.style.display == 'none'){
+                            student.style.animationName = 'grow'
+                            student.style.animationDuration= '0.7s'
+                            student.style.animationFillMode = 'forwards'
+                        
+                            student.addEventListener('animationend', ()=>{
+                            student.style.display = 'block';
+                            })
+                            
+                        student.style.display = 'block';
+                    }
+                    else if(student.style.display == 'block'){
+                        
+                        student.style.animationName = 'shrink'
+                        student.style.animationDuration= '0.7s'
+                        student.style.animationFillMode = 'backwards'
+                        
+                        student.addEventListener('animationend', ()=>{
+                            student.style.display = 'none';
+                        })
+                    }
+                    
+                    //  Else if display is not understood as is the case on first
+                    //push of button, just display
+                    else{
+                        student.style.animationName = 'grow'
+                            student.style.animationDuration= '0.7s'
+                            student.style.animationFillMode = 'forwards'
+                        
+                            student.addEventListener('animationend', ()=>{
+                            student.style.display = 'block';
+                            })
+                        student.style.display = 'block';
+                    }
+                }
+                else{
+                    student.style.display = 'none';
+                }
+
+                
+
+                })
+                
+            }
+            
+
+            
+            })
+        //End of detail button function
+        
+
+       document.querySelector('#changepassword').onclick = function(){
+                   password1 = document.querySelector('#password1').value
+                   password2 = document.querySelector('#password2').value
+                   
+                   // Dont allow submisson if password1 and 2 are different or if length is less than 5
+                   
+                   if(password1 != password2){
+                       alert('Passwords must match to be submitted')
+                       return false
+                   }
+                   else if(password1.length < 5){
+                       alert('Password must be longer than 4 characters')
+                       return false
+                   }
+                   
+                   
+                   else{
+                       return true
+                   }
+               }
+
+    })
+    </script>
+    <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+    <script src='{% static "school/navfile.js" %}'></script>
+
+    </head>
+    
+    <body>
+
+         <!--Navigation tool-->
+         <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Home</a></li>
+                <li><a href='{% url "aboutus" %}'>About Us</a></li>
+                <li><a href='{% url "admission" %}'>Admission</a></li>
+                <li><a href='{% url "pupil" %}'>Pupils</a></li>
+                <li><a href='{% url "teacher" %}'>Teachers</a></li>
+                
+                
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->        
+
+        <br>
+        <div id='topScreen'><h3>Welcome {{ name }}</h3></div>
+        <br>
+        {% if msg %}
+            <div id='wrapper' style='text-align: center;'>{{ msg }}</div>
+        {% endif %}
+
+        {% if activeIn %}
+        <h3 class='center'>Current Class</h3>
+            <div id='wrapper'>
+            {% for pupil in activeIn %}
+                 <!--Present a list containing containing each student up for promotion-->
+                 <h4>
+                    {{ pupil.classRoom }} 
+                    <button class='details' data-id='{{ pupil.classRoom }}'>Details</button>
+                  </h4>
+                  
+                  <!--This div is hidden until click of details button for each student-->
+                  <div class='hidden' id='{{ pupil.classRoom }}'>
+                      <p><strong>Name: {{ pupil.name }}</strong></p><br>
+                      <p><strong>Class: {{ pupil.classRoom }}</strong></p><br>
+                      <p><strong>Parent Email: {{ pupil.email }}</strong></p><br>
+                      <p><strong>Parent Contact: {{ pupil.phone }}</strong></p><br>
+                      <p><strong>Age: {{ pupil.age }}</strong></p><br>
+                      <p><strong>About: {{ pupil.about }}</strong></p><br>
+                      {% if pupil.note %}
+                        <p><strong>Teacher's statement: {{ pupil.note }}</strong></p>
+                      {% endif %}
+                      <br>
+                      <!--Show admin results of the pupil if present-->
+                      <p id='resultHeading'><strong>Results</strong></p>
+                      
+                
+                      <br>
+                      {% if pupil.Term1 %}
+                          <button><a href='{{ pupil.Term1.url }}' target='_blank'>1st term result</a></button>
+                      {% endif %}
+                      
+                      <br>
+                      <br>
+                      {% if pupil.Term2 %}
+                      <button><a href='{{ pupil.Term2.url }}' target='_blank'>2nd term result</a></button>
+                      <br>
+                      <br>
+                      {% endif %}
+                      
+                      {% if pupil.Term3 %}
+                      <button><a href='{{ pupil.Term3.url }}' target='_blank'>3rd term result</a></button>
+                      <br>
+                      <br>
+                      {% endif %}
+  
+            
+                
+                
+            </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        <br>
+        <br>
+        {% if dormantIn %}
+        <h3 class='center'>Other Classes {{ name }} has been in</h3>
+            <div id='wrapper'>
+            {% for pupil in dormantIn %}
+                 <!--Present a list containing containing each student up for promotion-->
+                 <h4>
+                    {{ pupil.classRoom }} 
+                    <button class='details' data-id='{{ pupil.classRoom }}'>Details</button>
+                  </h4>
+                  
+                  <!--This div is hidden until click of details button for each student-->
+                  <div class='hidden' id='{{ pupil.classRoom }}'>
+                      <p><strong>Name: {{ pupil.name }}</strong></p><br>
+                      <p><strong>Class: {{ pupil.classRoom }}</strong></p><br>
+                      <p><strong>About: {{ pupil.about }}</strong></p><br>
+                      <p><strong>Parent Email: {{ pupil.email }}</strong></p><br>
+                      <p><strong>Parent Contact: {{ pupil.phone }}</strong></p><br>
+                      <p><strong>Age: {{ pupil.age }}</strong></p><br>
+                      {% if pupil.note %}
+                        <p><strong>Teacher's statement: {{ pupil.note }}</strong></p>
+                      {% endif %}
+                      <br>
+                      <p id='resultHeading'><strong>Results<hr></strong></p>
+                      <!--Show admin results of the pupil if present-->
+                      {% if pupil.Term1 %}
+                          <button><a href='{{ pupil.Term1.url }}' target='_blank'>1st term result</a></button>
+                      {% endif %}
+                      
+                      <br>
+                      <br>
+                      {% if pupil.Term2 %}
+                      <button><a href='{{ pupil.Term2.url }}' target='_blank'>2nd term result</a></button>
+                      <br>
+                      <br>
+                      {% endif %}
+                      
+                      {% if pupil.Term3 %}
+                      <button><a href='{{ pupil.Term3.url }}' target='_blank'>3rd term result</a></button>
+                      <br>
+                      <br>
+                      {% endif %}
+  
+            
+                
+                
+            </div>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+        <br>
+        <div>
+            <p style='text-align: center;'>
+                <strong><button class='details' data-id='changePass'>Change Password
+
+                </button> </strong></p>
+            
+        </h4>
+        
+        
+        <!--This div is hidden until click of details button for each student-->
+        <div class='hidden' id='changePass'>
+            <form action='{% url "changepass" %}' method='POST'>
+                {% csrf_token %}
+                <input type='hidden' value='{{ student_id }}' name='student_id'>
+                <p><strong>Current Password*:</strong> <input name='current_pass'></p>
+                <br>
+                
+                <p><strong>New Password*:</strong> <input name='password1' id='password1'></p>
+                <br>
+                <p><strong>Retype Password*:</strong> <input name='password2' id='password2'></p>
+                <br>
+                
+                
+                
+                <p style='text-align: center;'><button id='changepassword'>Change Password</button></p>
+            </form>
+            
+            <br>
+            <br>
+        </div>
+        <br>
+        <br>
+        
+        </div>
+        <footer>
+            <img class='footimg' src='{{ logo.logo.url }}'>
+                <div id='footer1'>
+                    <h1>
+                        {% if footerDetail %}
+                            {{ footerDetail.school_name }}
+                        {% else %}
+                            School Name
+                        {% endif %}
+                    </h1>
+                    <h2>
+                        {% if footerDetail %}
+                            {{ footerDetail.school_motto }}
+                        {% else %}
+                            School Address
+                        {% endif %}
+                    </h2>
+                    <br>
+    
+                    <h3>
+                        {% if footerDetail %}
+                            {{ footerDetail.school_address }}
+                        {% else %}
+                            School Motto
+                        {% endif %}
+                    </h3>
+                    <br>
+                    <h3>
+                        {% if contactFooter %}
+                            {{ contactFooter.school_phone }}
+                        {% else %}
+                            School phone
+                        {% endif %}
+                    </h3>
+                    <h3>
+                        {% if contactFooter %}
+                            <a href='mailto:{{ contactFooter.school_mail }}'>{{ contactFooter.school_mail }}</a>
+                        {% else %}
+                            School mail
+                        {% endif %}
+    
+                    </h3>
+    
+                    <br>
+                
+                </div>
+                <div id='footer2'>
+                    <h1>About<hr></h1>
+                    <p>
+                        {% if aboutFooter %}
+                            {{ aboutFooter.school_about | linebreaks }}
+                        {% else %}
+                            School phone
+                        {% endif %}
+                    </p>
+                </div>
+        </footer>
+    </body>
+</html>

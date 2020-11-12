@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>News</title>
+    </head>
+
+    <style>
+           
+        body{
+            
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;;
+            
+        }
+        #body{
+            
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+
+        @media(min-width: 900px){
+            #bigimg{
+                width: 60%;
+                max-height: 400px; 
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                
+            }
+            .leftSide{
+                margin: auto;
+                width: 60%;
+                text-align: justify;
+            }
+            img{
+                width: 90%;
+                
+            }
+            hr{
+            border: 10px solid white;
+        }
+        
+            .resources{
+                
+                width: 35%;
+                background-color: rgb(246, 246, 250);
+                
+                text-align: center;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                
+            }
+
+            
+        }
+        #body{
+            width: 80%;
+            margin: auto;
+        }
+        .middle{
+            text-align: center;
+            color: darkblue;
+        }
+
+
+
+        @media(max-width: 898px){
+            .leftSide{
+                width: 100%;
+                text-align: justify;
+            }
+            img{
+                width: 99%;
+            }
+
+            .resources{
+                
+                width: 100%;
+                background-color: rgb(244, 237, 237);
+                
+                text-align: center;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                
+            }
+        }
+       
+
+    </style>
+
+    <body>
+        
+
+
+        <br>
+        {% if form %}
+        <form method="POST" enctype="multipart/form-data" action='{% url "adminrunonews" id %}'>
+            {% csrf_token %}
+            {{ form }}
+            <button>Submit</button>
+        </form>
+        {% endif %}
+
+            
+
+        
+        
+        <div id='body'>
+            
+            
+        <div class='leftSide'>
+            <br>
+            {% if editNews %}
+                <img id='bigimg' src='{{ editNews.newsImg.url }}' alt='{{ editNews.position }}'>
+                <h3 class='middle'>{{ editNews.desc }}</h3>
+            {% endif %}
+           
+            <br>
+            {% if upload %}
+               
+                <div>
+                    {{ upload.newsBody | linebreaks }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class='resources'>
+            <h3>More news from Runo</h3>
+            {% if news %}
+                {% for new in news %}
+                    <div>
+                        <a href='{% url "adminrunonews" new.position %}'>
+                            <img src='{{ new.newsImg.url }}' alt='{{ new.position }}'>
+                            <h5>{{ new.desc }}</h5>
+                        </a>
+                        
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+
+        </div>
+        </div>
+        
+    </body>
+
+</html>

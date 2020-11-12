@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        
+        <style>
+            
+            *{
+                border: 0px;
+                margin: 0px;
+                padding: 0px;
+            }
+            .scrollmenu{
+                overflow: auto;
+                white-space: nowrap;
+            }
+
+            #menu{
+                width: 100%;
+                height: 40px;
+                background-color: rgb(205, 159, 159);
+                text-align: center;
+            }
+
+            .scrollmenu > div{
+                display: inline-block;
+                
+                
+            }
+            .scrollmenu img{
+                height: 350px;
+                margin: 10px;
+                border: 1px solid rgb(237, 234, 234);
+                border-radius: 10px;
+                box-shadow: 1px 1px rgb(225, 225, 225);
+            }
+            
+            hr{
+                border: 4px solid yellow;
+                width: 100%;
+            }
+
+            .section{
+                width: auto;
+                display: flex;
+                flex-wrap: wrap;
+
+            }
+
+
+
+            @media(min-width: 900px){
+            .section{
+                width: 33%; 
+            }
+            .section img{
+                width: 80%;
+            }
+            #scrolly{
+                width: 57%;
+            }
+            #house{
+                display: flex;
+                flex-wrap: wrap;
+
+            }
+            }
+
+
+
+            @media(max-width: 898px){
+            .section{
+                margin: auto; 
+                width: 90%;
+                
+            }
+
+            .section img{
+                width: 100%;
+            }
+            }
+           
+           
+        </style>
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+    </head>
+
+    <body>
+        
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "aboutus" %}'>About Us</a></li>
+                <li><a href='{% url "admission" %}'>Admission</a></li>
+                <li><a href='{% url "pupil" %}'>Pupils</a></li>
+                <li><a href='{% url "teacher" %}'>Teachers</a></li>
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+
+
+        <div class='scrollmenu'>
+            {% if photos %}
+
+                {% for photo in photos  %}
+                    <div>
+                        <img src='{{ photo.photo.url }}' alt='{{ photo.desc }}'>
+                        <h5 style='text-align: center;'>{{ photo.desc }}</h5>
+                        
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+        </div>
+
+
+        <br>
+       
+        <div id='house'>
+        <div class='section'>
+            <h3>Welcome<hr></h3>
+            
+            {% if WelcImg %}
+                <div>
+                    <a href='{% url "welcome" %}'><img src='{{ WelcImg.welcImg.url }}' alt='Welcome'></a>
+                </div>
+            {% endif %}
+                <br>
+            {% if WelcLeader %}
+            <div>
+                <a href='{% url "leadership" %}'><img src='{{ WelcLeader.welcLeader.url }}' alt='Welcome'></a>
+            </div>
+        {% endif %}
+        </div>
+
+        <br>
+
+        <div class='scrollmenu' id='scrolly'>
+            <h3>News<hr></h3>
+            {% if news %}
+
+                {% for new in news  %}
+                    <div>
+
+                        <a href='{% url "runonews" new.position %}'>
+                            <img src='{{ new.newsImg.url }}' alt='{{ new.position }}'>
+                            <h5>{{ new.desc }}</h5>
+                        </a>
+                        
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+        </div>
+    </div>
+    <br>
+
+    <footer>
+        <img class='footimg' src='{{ logo.logo.url }}'>
+            <div id='footer1'>
+                <h1>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_name }}
+                    {% else %}
+                        School Name
+                    {% endif %}
+                </h1>
+                <h2>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_motto }}
+                    {% else %}
+                        School Address
+                    {% endif %}
+                </h2>
+                <br>
+
+                <h3>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_address }}
+                    {% else %}
+                        School Motto
+                    {% endif %}
+                </h3>
+                <br>
+                <h3>
+                    {% if contactFooter %}
+                        {{ contactFooter.school_phone }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </h3>
+                <h3>
+                    {% if contactFooter %}
+                        <a href='mailto:{{ contactFooter.school_mail }}'>{{ contactFooter.school_mail }}</a>
+                    {% else %}
+                        School mail
+                    {% endif %}
+
+                </h3>
+
+                <br>
+            
+            </div>
+            <div id='footer2'>
+                <h1>About<hr></h1>
+                <p>
+                    {% if aboutFooter %}
+                        {{ aboutFooter.school_about | linebreaks }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </p>
+            </div>
+    </footer>
+
+    </body>
+</html>

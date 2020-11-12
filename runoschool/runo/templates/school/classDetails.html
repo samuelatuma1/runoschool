@@ -1,0 +1,407 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Teacher Dashboard</title>
+        <style>
+            @keyframes grow{
+                0%{
+                    line-height: 0%;
+                    opacity: 0;
+                }
+                
+                
+                100%{
+                    opacity: 1;
+                    line-height: 100%;
+                }
+            }
+
+            @keyframes shrink{
+                0%{
+                    line-height: 100%;
+                    opacity: 1;
+                }
+                50%{
+                    opacity: 0.5;
+                    line-height: 30%;
+                }
+                
+                100%{
+                    opacity: 0;
+                    line-height: 0%;
+                }
+            }
+
+            body{
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                color: rgb(1, 1, 16);
+            }
+            #div a{
+                text-decoration: none;
+                
+            }
+            #div button{
+               /* background-color: #7b7082; */
+                /*color: rgb(226, 226, 226);*/
+                font-variant: small-caps;
+                /*border-radius: 6px;*/
+                /*border-bottom-left-radius: 0px;*/
+                /*box-shadow: 1px 1px rgb(34, 57, 34);*/
+                /*border: 1px solid  rgb(226, 226, 226);*/
+                background-color: rgb(5, 5, 84);
+                color: rgb(226, 226, 226);
+                font-variant: small-caps;
+                border-radius: 4px;
+                padding: 5px;
+                /*border-bottom-left-radius: 0px;*/
+               
+                border: 1px solid  white;
+                
+                
+            }
+            
+            #div h2{
+                margin: auto;
+                border-radius: 50%;
+                text-align: center;
+                width: 20%;
+                background-color: rgb(5, 5, 89);
+                color: rgb(249, 243, 243);
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                /*text-decoration: underline;*/
+                font-variant: small-caps;
+                
+            }
+            #wrapper , .hidden, .editResult, #msg{
+                border: 2px solid rgb(205, 201, 201);
+                border-radius: 15px;
+                box-shadow: 2px 2px 2px 2px rgb(225, 222, 222);
+                padding: 10px;
+            }
+            .hidden, .editResult{
+                display: none;
+            }
+            #msg{
+                text-align: center;
+            }
+
+            
+            @media(min-width: 1000px){
+            #wrapper{
+            width: 99%; 
+            }
+            .hidden{         
+                width: 70%;
+      }
+        }
+        
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+
+                // On click of each detail button, display details about the pupil
+                document.querySelectorAll('.details').forEach(function(button){
+                    button.onclick = function(){
+                        classValue = this.getAttribute('data-id')
+                        document.querySelectorAll('.hidden').forEach(function(student){
+                            //If student datapage is not on display, display it, else, hide it
+                            //Also, add keyframes animations to make the display more user friendly
+                            id = student.getAttribute('id');
+                            if(id == classValue){
+                                
+                                if(student.style.display == 'none'){
+                                    student.style.animationName = 'grow'
+                                    student.style.animationDuration= '0.7s'
+                                    student.style.animationFillMode = 'forwards'
+                                
+                                    student.addEventListener('animationend', ()=>{
+                                    student.style.display = 'block';
+                                    })
+                                    
+                                student.style.display = 'block';
+                            }
+                            else if(student.style.display == 'block'){
+                                
+                                student.style.animationName = 'shrink'
+                                student.style.animationDuration= '0.7s'
+                                student.style.animationFillMode = 'backwards'
+                                
+                                student.addEventListener('animationend', ()=>{
+                                    student.style.display = 'none';
+                                })
+                            }
+                            
+                            //  Else if display is not understood as is the case on first
+                            //push of button, just display
+                            else{
+                                student.style.animationName = 'grow'
+                                    student.style.animationDuration= '0.7s'
+                                    student.style.animationFillMode = 'forwards'
+                                
+                                    student.addEventListener('animationend', ()=>{
+                                    student.style.display = 'block';
+                                    })
+                                student.style.display = 'block';
+                            }
+                        }
+                        else{
+                            student.style.display = 'none';
+                        }
+                        })
+                    }})
+                //End of detail button function
+
+                //On click of each edit button, display form to edit Pupil
+                document.querySelectorAll('.edit').forEach(function(button){
+                    button.onclick = function(){
+                        pupil = this.getAttribute('data-value')
+                        
+                        //Get all forms for editing result
+                        document.querySelectorAll('.editResult').forEach(function(formDisplay){
+                            result = formDisplay.getAttribute('data-result')
+                            if(result == pupil){
+                                //If form is not on display, display it, else, hide it
+                                if( formDisplay.style.display == 'none'){
+
+                                    formDisplay.style.animationName = 'grow'
+                                    formDisplay.style.animationDuration= '0.7s'
+                                    formDisplay.style.animationFillMode = 'forwards'
+                                
+                                    formDisplay.addEventListener('animationend', ()=>{
+                                        formDisplay.style.display = 'block';
+                                    })
+                                    
+                            
+                                formDisplay.style.display = 'block';
+                                 }
+
+                                else if(formDisplay.style.display == 'block'){
+
+                                    formDisplay.style.animationName = 'shrink'
+                                    formDisplay.style.animationDuration= '0.7s'
+                                    formDisplay.style.animationFillMode = 'backwards'
+                                
+                                    formDisplay.addEventListener('animationend', ()=>{
+                                    formDisplay.style.display = 'none';
+                                })
+                                    
+                                }
+
+                            
+                            else{
+                                formDisplay.style.animationName = 'grow'
+                                    formDisplay.style.animationDuration= '0.7s'
+                                    formDisplay.style.animationFillMode = 'forwards'
+                                
+                                    formDisplay.addEventListener('animationend', ()=>{
+                                        formDisplay.style.display = 'block';
+                                    })
+                                    
+                            
+                                
+                                formDisplay.style.display = 'block';
+                            }
+                        }
+                        else{
+                            formDisplay.style.display = 'none';
+                        }
+                        })
+
+                    }
+                })
+
+            })
+        </script>
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+
+    </head>
+
+    <body>
+
+        
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Home</a></li>
+                <li><a href='{% url "aboutus" %}'>About Us</a></li>
+                <li><a href='{% url "admission" %}'>Admission</a></li>
+                <li><a href='{% url "pupil" %}'>Pupils</a></li>
+                <li><a href='{% url "teacher" %}'>Teachers</a></li>
+                
+                
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+
+        <div id='div'>
+        {% if msg%}
+            <div id='msg'>{{ msg }}</div>
+        {% endif %}
+        <br>
+        {% if classDetails %}
+        <div id='wrapper'>
+            <h2> Pupils</h2>
+            {% for pupil in classDetails %}
+                <h4>
+                    {{ pupil.name }} <button class='details' data-id='{{ pupil.student_id }}'>Details</button>
+                </h4>
+                
+                <div class='hidden' id='{{ pupil.student_id }}'>
+                    
+                    <h4> Name: {{ pupil.name }} </h4>
+                    <h4> Age: {{ pupil.age }}</h4>
+                    <h4>Class: {{ pupil.classRoom }}</h4>
+                    <h4>Email parent:<a href='mailto:{{ pupil.email }}'>{{ pupil.email }}</a></h4>
+                    <h4>Parent Contact: {{ pupil.phone }}</h4>
+                    <h4> About: {{ pupil.about }}</h4>
+                    <h4> Note: {{ pupil.note }}</h4>
+                    <h4>Remark: {{ pupil.remark }}</h4>
+                    
+
+                    {% if pupil.Term1 %}
+                        <button><a href='{{ pupil.Term1.url }}' target='_blank'>1st term result</a></button>
+                    {% endif %}
+                    
+                    <br>
+                    <br>
+                    {% if pupil.Term2 %}
+                    <button><a href='{{ pupil.Term2.url }}' target='_blank'>2nd term result</a></button>
+                    <br>
+                    <br>
+                    {% endif %}
+                    
+                    {% if pupil.Term3 %}
+                    <button><a href='{{ pupil.Term3.url }}' target='_blank'>3rd term result</a></button>
+                    <br>
+                    <br>
+                    {% endif %}
+                   
+
+                        <br>
+                    <button class='edit' data-value='{{ pupil.student_id }}'>
+                        Edit {{ pupil.name }}'s Result
+                    </button>
+                    <br>
+                    <br>
+                    <div class='editResult' data-result='{{ pupil.student_id }}'>
+                        <form action='{% url "result" %}' enctype="multipart/form-data" method='post'>
+                            {% csrf_token %}
+                            Pupil*: <select name='pupil_id'>
+                                <option value='{{ pupil.student_id }}'> {{ pupil.name }}</option>    
+                            </select>
+
+                            <br> <br>
+
+                            class*: <select name='classRoom'>
+                                <option value='{{ pupil.classRoom }}'> {{ pupil.classRoom }}</option>    
+                            </select>
+
+                            <br> <br>
+                           
+                            Term*: <select name='term'>
+                                <option value='Term1'>1st Term</option>
+                                <option value='Term2'>2nd Term</option>
+                                <option value='Term3'>3rd Term</option>
+                            </select>
+                            
+                            <br><br>
+                        
+                            Result*: <input type='file' name='result'>
+                            
+                            <br><br>
+                                Remark*: <select name='remark'>
+                                    
+                                    <option value='promote'>promote</option>
+                                    <option value='noChange' selected>noChange</option>
+                                    <option value='repeat'>repeat</option>
+                                </select>
+
+                            <br><br>
+                            
+                            <button>Make Changes to {{ pupil.name }}</button>
+                            <br>
+                        </form>
+                    </div>
+                    
+                    <br>
+                </div>
+            {% endfor %}
+            <hr>
+        </div>
+            
+        {% endif %}
+        <br>
+    </div>
+
+    <footer>
+        <img class='footimg' src='{{ logo.logo.url }}'>
+            <div id='footer1'>
+                <h1>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_name }}
+                    {% else %}
+                        School Name
+                    {% endif %}
+                </h1>
+                <h2>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_motto }}
+                    {% else %}
+                        School Address
+                    {% endif %}
+                </h2>
+                <br>
+
+                <h3>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_address }}
+                    {% else %}
+                        School Motto
+                    {% endif %}
+                </h3>
+                <br>
+                <h3>
+                    {% if contactFooter %}
+                        {{ contactFooter.school_phone }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </h3>
+                <h3>
+                    {% if contactFooter %}
+                        <a href='mailto:{{ contactFooter.school_mail }}'>{{ contactFooter.school_mail }}</a>
+                    {% else %}
+                        School mail
+                    {% endif %}
+
+                </h3>
+
+                <br>
+            
+            </div>
+            <div id='footer2'>
+                <h1>About<hr></h1>
+                <p>
+                    {% if aboutFooter %}
+                        {{ aboutFooter.school_about | linebreaks }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </p>
+            </div>
+    </footer>
+
+    </body>
+</html>

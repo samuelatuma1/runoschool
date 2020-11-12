@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>about us</title>
+    </head>
+    <style>
+        body{
+                
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;;
+            
+        }
+        #body{
+            
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .resources div{
+            width: 90%;
+            border-radius: 12px;
+            border-bottom-left-radius: 0px;
+            padding: 10px 10px 10px 10px;
+            background-color: rgb(163, 163, 203);
+            
+        }
+        
+
+        @media(min-width: 900px){
+            #bigimg{
+                width: 65%;
+                max-height: 400px; 
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                
+            }
+            .leftSide{
+                margin: auto;
+                width: 60%;
+                text-align: justify;
+            }
+            img{
+                width: 90%;
+                
+            }
+            hr{
+            border: 10px solid white;
+        }
+        
+            .resources{
+                
+                width: 25%;
+                background-color: white;
+                
+                text-align: center;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                
+            }
+
+            
+        }
+        #body{
+            width: 80%;
+            margin: auto;
+        }
+        .middle{
+            text-align: center;
+            color: darkblue;
+        }
+
+
+
+        @media(max-width: 898px){
+            .leftSide{
+                width: 100%;
+                text-align: justify;
+            }
+            img{
+                width: 99%;
+            }
+
+            .resources{
+                
+                width: 100%;
+                background-color: white;
+                
+                text-align: center;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                
+            }
+        }
+   
+
+    </style>
+    <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+    <script src='{% static "school/navfile.js" %}'></script>
+
+    <body>
+
+
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Home</a></li>
+                
+                <li><a href='{% url "admission" %}'>Admission</a></li>
+                <li><a href='{% url "pupil" %}'>Pupils</a></li>
+                <li><a href='{% url "teacher" %}'>Teachers</a></li>
+                
+                
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+
+
+        <div id='body'>
+        
+            <br>
+            <div class='leftSide'>
+                {% if allAbout %}
+                    {% for abouts in allAbout %}
+                        <h3>{{ abouts.title }}</h3>
+                        <img src='{{ abouts.img.url }}' alt="{{ abouts.title }}">
+                        
+                        <div>{{ abouts.body | linebreaks }}</div>
+                    {% endfor %}
+                {% endif %}
+    
+                <hr>
+                {% if allAbout2 %}
+                    {% for about in allAbout2 %}
+                        <h3>{{ about.title2 }}</h3>
+                        <img src='{{ about.img2.url }}' alt="{{ about.title2 }}">
+                        
+                        <div>{{ about.body2 | linebreaks }}</div>
+                    {% endfor %}
+                {% endif %}
+    
+                <hr>
+                {% if allAbout3 %}
+                    {% for about3 in allAbout3 %}
+                    <h3>{{ about3.title3 }}</h3>
+                        <img src='{{ about3.img3.url }}' alt="{{ about3.title3 }}">
+                        
+                        <div>{{ about3.body3 | linebreaks }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+            <div class='resources'>
+                <br>
+                <br>
+                <br>
+                <div>
+                    Hello World
+                </div>
+                <br>
+                <div>
+                    Hello World
+                </div>
+                <br>
+                <div>
+                    Hello World
+                </div>
+                <br>
+                <div>
+                    Hello World
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+    <footer>
+        <img class='footimg' src='{{ logo.logo.url }}'>
+            <div id='footer1'>
+                <h1>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_name }}
+                    {% else %}
+                        School Name
+                    {% endif %}
+                </h1>
+                <h2>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_motto }}
+                    {% else %}
+                        School Address
+                    {% endif %}
+                </h2>
+                <br>
+
+                <h3>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_address }}
+                    {% else %}
+                        School Motto
+                    {% endif %}
+                </h3>
+                <br>
+                <h3>
+                    {% if contactFooter %}
+                        {{ contactFooter.school_phone }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </h3>
+                <h3>
+                    {% if contactFooter %}
+                        <a href='mailto:{{ contactFooter.school_mail }}'>{{ contactFooter.school_mail }}</a>
+                    {% else %}
+                        School mail
+                    {% endif %}
+
+                </h3>
+
+                <br>
+            
+            </div>
+            <div id='footer2'>
+                <h1>About<hr></h1>
+                <p>
+                    {% if aboutFooter %}
+                        {{ aboutFooter.school_about | linebreaks }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </p>
+            </div>
+    </footer>
+
+
+    </body>
+</html>

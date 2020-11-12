@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> About Us</title>
+        <style>
+            #div{
+                border: 2px solid rgb(210, 204, 204);
+                border-radius: 10px;
+                padding: 10px;
+                margin: auto;
+                width: 95%;
+            }
+            hr{
+                border: 4px solid yellow;
+                background-color: yellow;
+            }
+        </style>
+    </head>
+
+    <body>
+        {% load static %}
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+        
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Go to home page</a></li>
+                <li><a href='{% url "adminindex" %}'>Edit Home Page</a></li>
+                <li><a href='{% url "adminaboutus" %}'>Edit About Us</a></li>
+                <li><a href='{% url "adminadmission" %}'>Edit Admission</a></li>
+                <li><a href='{% url "adminleadership" %}'>Edit Extracurricular</a></li>
+                <li><a href='{% url "adminwelcome" %}'>Edit Academics</a></li>
+                
+                <li><a href='{% url "footerUpdate" %}'>Update footer</a></li>
+                <li><a href='{% url "principalRemark" %}'>Remark for Each class</a></li>
+                <li><a href='{% url "regpupil" %}'>Register new Pupil</a></li>
+                <li><a href='{% url "teacherprofile" %}'>Update Class Details</a></li>
+                <li><a href='{% url "pupildetails" %}'>Get pupil Details</a></li>
+
+
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+        <br>
+
+
+
+        <h2>This is where admin edits the images and contents of the about us page</h2>
+        <br>
+        {% if form1 %}
+        <div id='div'>
+        <h3>This form controls what should be dispayed first, as well as the 
+            first image on the about us page
+            
+        </h3>
+        <br>
+        <form method='post' enctype="multipart/form-data" action='{% url "adminaboutus" %}'>
+        {% csrf_token %}
+         {{ form1.as_p }}
+         <button>Submit</button>
+
+        </form>
+
+        </div>
+        {% endif %}
+        <br>
+        <hr>
+        <br>
+
+        {% if form2 %}
+        <div id='div'>
+        <h3>This form controls what should be dispayed after the first, as well as the 
+            second image on the about us page
+        </h3>
+        <br>
+        <form method='post' enctype="multipart/form-data" action='{% url "adminaboutus" %}'>
+        {% csrf_token %}
+         {{ form2.as_p }}
+         <button>Submit</button>
+
+        </form>
+        </div>
+        {% endif %}
+        <br>
+        <hr>
+        <br>
+ 
+        {% if form3 %}
+        <div id='div'>
+        <h3>This form controls what should be dispayed last, as well as the 
+            third image on the about us page
+        </h3><br>
+        <form method='post' enctype="multipart/form-data" action='{% url "adminaboutus" %}'>
+        {% csrf_token %}
+         {{ form3.as_p }}
+         <button>Submit</button>
+
+        </form>
+        {% endif %}
+        </div>
+        <br>
+        <hr>
+
+        <div>
+            Preview
+            <br>
+            <hr>
+                {% if allAbout %}
+                    {% for abouts in allAbout %}
+                        <img src='{{ abouts.img.url }}' alt="{{ abouts.title }}">
+                        <h3>{{ abouts.title }}</h3>
+                        <div>{{ abouts.body | linebreaks }}</div>
+                    {% endfor %}
+                {% endif %}
+    
+                <hr>
+                {% if allAbout2 %}
+                    {% for about in allAbout2 %}
+                        <img src='{{ about.img2.url }}' alt="{{ about.title2 }}">
+                        <h3>{{ about.title2 }}</h3>
+                        <div>{{ about.body2 | linebreaks }}</div>
+                    {% endfor %}
+                {% endif %}
+    
+                <hr>
+                {% if allAbout3 %}
+                    {% for about3 in allAbout3 %}
+                        <img src='{{ about3.img3.url }}' alt="{{ about3.title3 }}">
+                        <h3>{{ about3.title3 }}</h3>
+                        <div>{{ about3.body3 | linebreaks }}</div>
+                    {% endfor %}
+                {% endif %}
+                <hr>
+    
+            <hr>
+
+        </div>
+    </body>
+</html>

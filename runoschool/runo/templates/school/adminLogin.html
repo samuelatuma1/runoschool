@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Class Login </title>
+        <style>
+            body{
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                color: rgb(67, 31, 31);
+            }
+            .div div{
+                border: 2px solid rgb(205, 201, 201);
+                border-radius: 15px;
+                box-shadow: 2px 2px 2px 2px rgb(225, 222, 222);
+                padding: 10px;
+            }
+            button{
+                background-color: rgb(4, 4, 125);
+                color: rgb(255, 255, 255);
+                font-variant: small-caps;
+                border-radius: 3px;
+                padding: 4px;
+                border-bottom-left-radius: 0px;
+                /*box-shadow: 3px 3px rgb(34, 57, 34);*/
+                
+            }
+            input{
+                border-radius: 10px;
+                box-shadow: 3px 3px rgb(216, 216, 216);
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        {% load static %}
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+        
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Go to home page</a></li>
+                <li><a href='{% url "adminindex" %}'>Edit Home Page</a></li>
+                <li><a href='{% url "adminaboutus" %}'>Edit About Us</a></li>
+                <li><a href='{% url "adminadmission" %}'>Edit Admission</a></li>
+                <li><a href='{% url "adminleadership" %}'>Edit Extracurricular</a></li>
+                <li><a href='{% url "adminwelcome" %}'>Edit Academics</a></li>
+                
+                <li><a href='{% url "footerUpdate" %}'>Update footer</a></li>
+                <li><a href='{% url "principalRemark" %}'>Remark for Each class</a></li>
+                <li><a href='{% url "regpupil" %}'>Register new Pupil</a></li>
+                <li><a href='{% url "teacherprofile" %}'>Update Class Details</a></li>
+                <li><a href='{% url "pupildetails" %}'>Get pupil Details</a></li>
+                <li><a href='{% url "editStudentProfile" %}'>Edit Student Details</a></li>
+
+
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+        <br>
+        <div class='div'>
+        <div>
+        {% if msg %}
+        <div>
+            <p>{{ msg }}</p>
+        </div>
+        {% endif %}
+        {% if classForm %}
+        <form action='{% url "principalRemark" %}' method='POST'>
+            <br>
+            {% csrf_token %}
+            {{ classForm.as_p }}
+            <br>
+            <p style='text-align: center;'><button>Go to Class</button></p>
+            <br>
+        </form>
+        {% endif %}
+        </div>
+    </div>
+    </body>
+</html>

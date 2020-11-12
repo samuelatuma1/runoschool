@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome</title>
+        <style>
+           
+            body{
+                
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                
+            }
+            #body{
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .resources div{
+                width: 90%;
+                border-radius: 12px;
+                border-bottom-left-radius: 0px;
+                padding: 15px;
+                background-color: rgb(163, 163, 203);
+                
+            }
+            
+
+            @media(min-width: 900px){
+                #bigimg{
+                    width: 80%;
+                    height: 350px;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    
+                }
+                .leftSide{
+                    margin: auto;
+                    width: 70%;
+                    text-align: justify;
+                }
+                img{
+                    width: 100%;
+                    
+                }
+                hr{
+                border: 10px solid white;
+            }
+            
+                .resources{
+                    
+                    width: 20%;
+                    background-color: white;
+                    
+                    text-align: center;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px;
+                    
+                }
+
+                
+            }
+            #body{
+                width: 80%;
+                margin: auto;
+            }
+
+
+
+            @media(max-width: 898px){
+                .leftSide{
+                    width: 100%;
+                    text-align: justify;
+                }
+                img{
+                    width: 99%;
+                }
+
+                .resources{
+                    
+                    width: 100%;
+                    background-color: rgb(244, 237, 237);
+                    
+                    text-align: center;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px;
+                    
+                }
+            }
+           
+
+        </style>
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+
+    </head>
+
+    <body>
+
+
+         <!--Navigation tool-->
+         <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Home</a></li>
+                <li><a href='{% url "aboutus" %}'>About Us</a></li>
+                <li><a href='{% url "admission" %}'>Admission</a></li>
+                <li><a href='{% url "pupil" %}'>Pupils</a></li>
+                <li><a href='{% url "teacher" %}'>Teachers</a></li>
+                
+                
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+
+
+        {% if pos %}
+            <img id='bigimg' src='{{ pos.img1.welcImg.url }}' alt='Welcome'>
+        {% endif %}
+        <br>
+        <div id='body'>
+        <div class='leftSide'>
+            {% if pos %}
+                    
+                    <div>
+                        
+                        <h2>{{ pos.writeHead1 }}</h2>
+                        {{ pos.write1 | linebreaks }}
+                    </div>
+                
+            {% endif %}
+
+                    <br>
+            {% if pos2 %}
+                     <div>
+                        <img src='{{ pos.img1.extraImg1.url }}' alt='Welcome'>
+                        <h2>{{ pos2.writeHead2 }}</h2>
+                        
+                        {{ pos2.write2 | linebreaks }}
+                    </div>
+            {% endif %}
+
+            
+
+        </div>
+        <br>
+        <div class='resources'> 
+        {% if pos3 %}
+                <div>
+                    <h3> Who to contact</h3>
+                    <p><a href="mailto:{{ pos3.email1 }}" target='_blank'>{{ pos3.contact1 }}</a></p>
+                    <p><a href="mailto:{{ pos3.email2 }}" target='_blank'>{{ pos3.contact2 }}</a></p>
+
+                </div>
+           {% endif %}
+                <br>
+                
+           {% if pos4 %}
+                <div>
+                    <h3>Additional Resources</h3>
+                    <p><a href="{{ pos4.file1.url }}" target='_blank'>{{ pos4.displayName1 }}</a></p>
+                    <p><a href="{{ pos4.file2.url }}" target='_blank'>{{ pos4.displayName2 }}</a></p>
+
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <br>
+
+    <footer>
+        <img class='footimg' src='{{ logo.logo.url }}'>
+            <div id='footer1'>
+                <h1>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_name }}
+                    {% else %}
+                        School Name
+                    {% endif %}
+                </h1>
+                <h2>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_motto }}
+                    {% else %}
+                        School Address
+                    {% endif %}
+                </h2>
+                <br>
+
+                <h3>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_address }}
+                    {% else %}
+                        School Motto
+                    {% endif %}
+                </h3>
+                <br>
+                <h3>
+                    {% if contactFooter %}
+                        {{ contactFooter.school_phone }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </h3>
+                <h3>
+                    {% if contactFooter %}
+                        <a href='mailto:{{ contactFooter.school_mail }}'>{{ contactFooter.school_mail }}</a>
+                    {% else %}
+                        School mail
+                    {% endif %}
+
+                </h3>
+
+                <br>
+            
+            </div>
+            <div id='footer2'>
+                <h1>About<hr></h1>
+                <p>
+                    {% if aboutFooter %}
+                        {{ aboutFooter.school_about | linebreaks }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </p>
+            </div>
+    </footer>
+
+    </body>
+</html>

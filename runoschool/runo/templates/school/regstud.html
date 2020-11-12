@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register Pupil</title>
+        <style>
+            body{
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                color: rgb(67, 31, 31);
+            }
+            .div div{
+                border: 2px solid rgb(205, 201, 201);
+                border-radius: 15px;
+                box-shadow: 2px 2px 2px 2px rgb(225, 222, 222);
+                padding: 10px;
+            }
+            button{
+                
+                background-color: rgb(0, 0, 108);
+                color: rgb(255, 255, 255);
+                font-variant: small-caps;
+                border-radius: 4px;
+                
+               
+                
+            }
+            input, select{
+                border-radius: 4px;
+                box-shadow: 3px 3px rgb(216, 216, 216);
+            }
+        </style>
+        <script>
+            // This function prevents the form from submitting if any field is left blank
+            document.addEventListener('DOMContentLoaded', function(){
+                //Any empty is a measure of how many input fields are left empty
+                anyEmpty = 0
+                document.querySelector('#submit').onclick = function(){
+                    // On click of submit button, loop through all the submitted input field
+                    document.querySelectorAll('input').forEach(function(input){
+                        // Get the value of each input
+                        inputValue = input.value
+                        // If input doesnt have any value
+                        if(inputValue.length < 1){
+                            // Add 1 to anyEmpty
+                            anyEmpty += 1
+                        }
+                        else{
+                            // Else, add nothing to  anyEmpty
+                            anyEmpty += 0
+                        }
+                    })
+                    if(anyEmpty == 0){
+                        // If anyEmpty is 0, meaning no empty field, submit form
+                        return true
+                    }
+                    else{
+                        // Else, alert that a field is left blank, don't submit form
+                        alert('Oops, one or more fields left blank!! ')
+                        anyEmpty = 0
+                        return false
+                        
+                    }
+                }
+            })
+        </script>
+    </head>
+    
+    <body>
+        {% load static %}
+        <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+        <script src='{% static "school/navfile.js" %}'></script>
+        
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Go to home page</a></li>
+                <li><a href='{% url "adminindex" %}'>Edit Home Page</a></li>
+                <li><a href='{% url "adminaboutus" %}'>Edit About Us</a></li>
+                <li><a href='{% url "adminadmission" %}'>Edit Admission</a></li>
+                <li><a href='{% url "adminleadership" %}'>Edit Extracurricular</a></li>
+                <li><a href='{% url "adminwelcome" %}'>Edit Academics</a></li>
+                
+                <li><a href='{% url "footerUpdate" %}'>Update footer</a></li>
+                <li><a href='{% url "principalRemark" %}'>Remark for Each class</a></li>
+                <li><a href='{% url "regpupil" %}'>Register new Pupil</a></li>
+                <li><a href='{% url "teacherprofile" %}'>Update Class Details</a></li>
+                <li><a href='{% url "pupildetails" %}'>Get pupil Details</a></li>
+                <li><a href='{% url "editStudentProfile" %}'>Edit Student Details</a></li>
+
+
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+        <br>
+        <div class='div'>
+        
+            {% if msg %}
+            <div>
+                <p><strong>{{ msg }}</strong></p>
+            </div>
+            {% endif %}
+            <br>
+        <div>
+            <form action='{% url "basicdata" %}' method='POST'>
+                {% csrf_token %}
+                <p style="text-align: center;"><strong> Registration details</strong></p>
+                <p><strong>Pupil's name*:</strong> <input name='name' placeholder='Name of pupil'></p>
+                <p><strong>student_id*:</strong> <select name='student_id'>
+                    <option value='{{ student_id }}' selected>{{ student_id }}</option>
+                </select>
+                </p>
+                <p><strong>Class*:</strong> <select name='classRoom'>
+                    <option value='{{ Class }}' selected>{{ Class }}</option>
+                </select>
+                </p>
+                <p><strong>Default Password*:</strong> <select name='password'>
+                    <option value='{{ password }}' selected>{{ password }}</option>
+                </select>
+                </p>
+                <p><strong>Parent Phone Number :</strong> <input name='contact'></p>
+                <p><strong>Parent Email :</strong> <input name='email' type='email'></p>
+                <p><strong>Year of birth:</strong> <input type="number" min='1990' max='2050' name='year'></p>
+                <p><strong>Month of birth:</strong> <input type="number" min='1' max='12' name='month'></p>
+                <p><strong>Day of birth:</strong> <input type="number" min='1' max='31' name='day'></p>
+                <p><strong>About pupil:</strong><input name='about'></p>
+
+                
+                
+                
+                <p style="text-align: center;"><button id='submit'>Register Pupil</button></p>
+            </form>
+        </div>
+        
+    </div>
+    </body>
+</html>

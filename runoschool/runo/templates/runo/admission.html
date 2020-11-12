@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>admission</title>
+    
+    <style>
+        body{
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            
+        }
+        #body{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        @media(min-width: 900px){
+        
+        .admission{
+            margin: auto;
+            border: 2px solid rgb(205, 201, 201);
+            width: 40%;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 2px 3px rgb(225, 222, 222);
+            padding: 10px;
+            
+        }
+        .admission h1{
+            color: rgb(3, 3, 114);
+        }
+        .admission button{
+            float: left;
+            background-color: rgb(180, 180, 181);
+            color:rgb(225, 222, 222);
+            border-radius: 20px;
+            padding: 5px;
+            border: 3px solid rgb(180, 180, 181);;
+        }
+        }
+        @media (max-width:1080px){
+            .admission{
+            margin: auto;
+            border: 2px solid rgb(205, 201, 201);
+            width: 99%;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 2px 5px rgb(225, 222, 222);
+            padding: 10px;
+            
+        }
+        .admission h1{
+            color: rgb(3, 3, 114);
+        }
+        .admission button{
+            float: left;
+            background-color: rgb(180, 180, 181);
+            color:rgb(214, 212, 215);
+            border-radius: 20px;
+            padding: 5px;
+            border: 3px solid rgb(180, 180, 181);;
+        }
+
+        }
+    </style>
+    <link rel='stylesheet' href='{% static "school/navfile.css" %}'>
+    <script src='{% static "school/navfile.js" %}'></script>
+    </head>
+    
+    <body>
+        <!--Navigation tool-->
+        <nav>
+            <div class="logo">
+                <!--Name of school-->
+                <h4>Runo Dayspring School</h4>
+            </div>
+            <ul class='nav-links'>
+                <li><a href='{% url "index" %}'>Home</a></li>
+                <li><a href='{% url "aboutus" %}'>About Us</a></li>
+                
+                <li><a href='{% url "pupil" %}'>Pupils</a></li>
+                <li><a href='{% url "teacher" %}'>Teachers</a></li>
+                
+                
+                
+            </ul>
+            <div class='burger'>
+                <div class='line1'></div>
+                <div class='line2'></div>
+                <div class='line3'></div>
+            </div>
+        </nav>
+        <!--End of Navigation tool-->
+        <br>
+        <div id='body'>
+        <div class='admission'>
+            {% if steps %}
+            <div>
+                <button>{{ school }}</button>
+                <h1>How to apply to Runo Dayspring School</h1>
+                {% for step in steps %}
+                    <h4>{{ step.step}}</h4>
+
+                {% endfor %}
+            </div>
+
+            {% endif %}
+
+        </div>
+        <br>
+        <div class='admission'>
+            {% if posit %}
+                <button>{{ school }}</button>
+                <h1>Important documents</h1>
+                <h3><a href='{{ posit.file1.url }}' target='_blank'>{{ posit.name1 }}</a></h3>
+                <h3><a href='{{ posit.file2.url }}' target='_blank'>{{ posit.name2 }}</a></h3>
+                <h3><a href='{{ posit.file3.url }}' target='_blank'>{{ posit.name3 }}</a></h3>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+
+    <footer>
+        <img class='footimg' src='{{ logo.logo.url }}'>
+            <div id='footer1'>
+                <h1>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_name }}
+                    {% else %}
+                        School Name
+                    {% endif %}
+                </h1>
+                <h2>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_motto }}
+                    {% else %}
+                        School Address
+                    {% endif %}
+                </h2>
+                <br>
+
+                <h3>
+                    {% if footerDetail %}
+                        {{ footerDetail.school_address }}
+                    {% else %}
+                        School Motto
+                    {% endif %}
+                </h3>
+                <br>
+                <h3>
+                    {% if contactFooter %}
+                        {{ contactFooter.school_phone }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </h3>
+                <h3>
+                    {% if contactFooter %}
+                        <a href='mailto:{{ contactFooter.school_mail }}'>{{ contactFooter.school_mail }}</a>
+                    {% else %}
+                        School mail
+                    {% endif %}
+
+                </h3>
+
+                <br>
+            
+            </div>
+            <div id='footer2'>
+                <h1>About<hr></h1>
+                <p>
+                    {% if aboutFooter %}
+                        {{ aboutFooter.school_about | linebreaks }}
+                    {% else %}
+                        School phone
+                    {% endif %}
+                </p>
+            </div>
+    </footer>
+
+    </body>
+</html>
